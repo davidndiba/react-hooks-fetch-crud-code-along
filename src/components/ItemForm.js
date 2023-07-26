@@ -4,8 +4,26 @@ function ItemForm() {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("Produce");
 
+  function handleSubmit (e) {
+    e.preventDefault();
+    const itemData = {
+      name:name,
+      category:category,
+      isInCart:false,
+    };
+  fetch("http://localhost:3000/items",{
+    method:"POST",
+    headers: {
+      "Content-Type":"application/json",
+    },
+    body:JSON.stringify(itemData),
+  })
+  .then((r) => r.json())
+  .then((newItem) => console.log (newItem));
+}
+
   return (
-    <form className="NewItem">
+    <form className="NewItem" onSubmit={handleSubmit}>
       <label>
         Name:
         <input
@@ -17,7 +35,7 @@ function ItemForm() {
       </label>
 
       <label>
-        Category:
+      
         <select
           name="category"
           value={category}
